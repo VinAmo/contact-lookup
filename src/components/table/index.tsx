@@ -1,49 +1,36 @@
-import { TableHeaderData, TableRowData } from "@/types";
-import { v4 as uuidv4 } from "uuid";
+import { TableRowData } from "@/types";
 import Header from "./header";
 import Row from "./row";
-
-const headerData: TableHeaderData[] = [
-  {
-    id: uuidv4(),
-    name: "#",
-  },
-  {
-    id: uuidv4(),
-    name: "",
-  },
-  {
-    id: uuidv4(),
-    name: "First name",
-  },
-  {
-    id: uuidv4(),
-    name: "Last name",
-  },
-  {
-    id: uuidv4(),
-    name: "Email",
-  },
-  {
-    id: uuidv4(),
-    name: "Avatar image",
-  },
-];
+import { useState, useEffect } from "react";
 
 const Table = ({ data }: { data: TableRowData[] }) => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  // in order to resolve the 'hidden sm:table-cell' cannot
+  // be triggered on window resize
+  // we need to manually monitor the resizing event
+  // and apply style={{ display: isMobile ? "none" : "table-cell" }}
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <div className="relative h-[70vh] overflow-scroll">
       <table className="table-auto text-left text-sm font-light">
         <thead className="sticky top-0 border-b font-medium bg-white">
-          <tr>
-            {headerData.map((header) => (
-              <Header key={header.id} data={header} />
-            ))}
-          </tr>
+          <Header isMobile={isMobile} />
         </thead>
         <tbody>
           {data.map((row, index) => (
-            <Row key={row.id} index={index} data={row} />
+            <Row key={row.id} index={index} data={row} isMobile={isMobile} />
           ))}
         </tbody>
       </table>

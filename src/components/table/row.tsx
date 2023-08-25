@@ -1,9 +1,17 @@
 import Image from "next/image";
 import { TableRowData } from "@/types";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ArrowIcon from "../../../public/assets/arrow.svg";
 
-const Row = ({ index, data }: { index: number; data: TableRowData }) => {
+const Row = ({
+  index,
+  data,
+  isMobile,
+}: {
+  index: number;
+  data: TableRowData;
+  isMobile: boolean;
+}) => {
   const [expandedRow, setExpandedRow] = useState<number | null>(null);
 
   const onClick = (index: number) => {
@@ -28,7 +36,12 @@ const Row = ({ index, data }: { index: number; data: TableRowData }) => {
         </td>
         <td className="px-6 py-4">{data.firstName}</td>
         <td className="px-6 py-4">{data.lastName}</td>
-        <td className="px-6 py-4">{data.email}</td>
+        <td
+          className="px-6 py-4"
+          style={{ display: isMobile ? "none" : "table-cell" }}
+        >
+          {data.email}
+        </td>
         <td className="px-6 py-4">
           <Image
             src={data.avatarImage}
@@ -47,7 +60,8 @@ const Row = ({ index, data }: { index: number; data: TableRowData }) => {
         {/* set p-0 to override default p-1 for table td */}
         <td colSpan={6} className="p-0">
           {expandedRow === index && (
-            <div className="flex justify-end pr-6">
+            <div className="flex flex-col text-right pr-6">
+              <p className="block sm:hidden">Email {data.email}</p>
               <p>Phone number {data.phone}</p>
             </div>
           )}
