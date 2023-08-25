@@ -10,6 +10,10 @@ const headerData: TableHeaderData[] = [
   },
   {
     id: uuidv4(),
+    name: "",
+  },
+  {
+    id: uuidv4(),
     name: "First name",
   },
   {
