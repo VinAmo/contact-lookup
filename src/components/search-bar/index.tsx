@@ -1,10 +1,16 @@
 "use client";
 
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import SearchIcon from "../../../public/assets/search.svg";
 
-const SearchBar = () => {
+const SearchBar = ({
+  onClickSearch,
+}: {
+  onClickSearch: (value: string) => void;
+}) => {
+  const [value, setValue] = useState("");
+
   useEffect(() => {
     const init = async () => {
       const { Ripple, initTE } = await import("tw-elements");
@@ -18,8 +24,10 @@ const SearchBar = () => {
       <input
         type="search"
         className="w-4/5 max-w-xl rounded-l border border-solid border-gray-300 bg-transparent px-3 text-base font-normal text-gray-700 outline-none transition duration-200 ease-in-out focus:border-blue focus:text-gray-700 focus:shadow-inner focus:outline-none"
-        placeholder="Search"
+        placeholder="Input names to search"
         aria-label="Search"
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
       />
 
       <button
@@ -27,6 +35,7 @@ const SearchBar = () => {
         type="button"
         data-te-ripple-init
         data-te-ripple-color="light"
+        onClick={() => onClickSearch(value)}
       >
         <Image src={SearchIcon} alt="search icon" />
       </button>

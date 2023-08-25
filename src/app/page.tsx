@@ -1,16 +1,25 @@
-import Table from "@/components/table";
-import dynamic from "next/dynamic";
-import contactData from "@/contactData";
+import Loading from "./loading";
+import Landing from "./landing";
 
-const SearchBar = dynamic(() => import("@/components/search-bar"), {
-  ssr: false,
-});
+async function getData() {
+  const res = await fetch(
+    "https://vhloybnwf3poctpcjw2m66uh6q0kruyq.lambda-url.ap-southeast-2.on.aws/"
+  );
 
-export default function Home() {
+  if (!res.ok) {
+    // throw new Error("Failed to fetch data");
+    console.log("error", res);
+  }
+
+  return res.json();
+}
+
+export default async function Home() {
+  const data = await getData();
+
   return (
     <main className="flex flex-col items-center justify-between">
-      <SearchBar />
-      <Table data={contactData} />
+      {data ? <Landing data={data} /> : <Loading />}
     </main>
   );
 }
