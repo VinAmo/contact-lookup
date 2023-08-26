@@ -20,7 +20,13 @@ const SearchBar = ({
   }, []);
 
   return (
-    <div className="flex w-full justify-center p-24">
+    <form
+      className="flex w-full justify-center p-24"
+      onSubmit={(e) => {
+        e.preventDefault();
+        onClickSearch(value);
+      }}
+    >
       <input
         type="search"
         className="w-4/5 max-w-xl rounded-l border border-solid border-gray-300 bg-transparent px-3 text-base font-normal text-gray-700 outline-none transition duration-200 ease-in-out focus:border-blue focus:text-gray-700 focus:shadow-inner focus:outline-none"
@@ -32,14 +38,13 @@ const SearchBar = ({
 
       <button
         className="flex items-center rounded-r bg-blue-600 px-6 py-2.5 shadow-md transition duration-150 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0"
-        type="button"
+        type="submit"
         data-te-ripple-init
         data-te-ripple-color="light"
-        onClick={() => onClickSearch(value)}
       >
         <Image src={SearchIcon} alt="search icon" />
       </button>
-    </div>
+    </form>
   );
 };
 
