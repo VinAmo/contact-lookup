@@ -5,9 +5,9 @@ import Image from "next/image";
 import SearchIcon from "../../../public/assets/search.svg";
 
 const SearchBar = ({
-  onClickSearch,
+  onQuerySearch,
 }: {
-  onClickSearch: (value: string) => void;
+  onQuerySearch: (value: string) => void;
 }) => {
   const [value, setValue] = useState("");
 
@@ -24,7 +24,7 @@ const SearchBar = ({
       className="flex w-full justify-center p-24"
       onSubmit={(e) => {
         e.preventDefault();
-        onClickSearch(value);
+        onQuerySearch(value);
       }}
     >
       <input
@@ -33,7 +33,10 @@ const SearchBar = ({
         placeholder="Input names to search"
         aria-label="Search"
         value={value}
-        onChange={(e) => setValue(e.target.value)}
+        onChange={(e) => {
+          setValue(e.target.value);
+          onQuerySearch(e.target.value);
+        }}
       />
 
       <button

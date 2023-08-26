@@ -31,7 +31,7 @@ const fuzzyMatch = (str: string, pattern: string): boolean => {
 export default function Landing({ data }: { data: any }) {
   const [matchedData, setMatchedData] = useState([]);
 
-  const onClickSearch = (value: string) => {
+  const onQuerySearch = (value: string) => {
     const filteredData = data.filter((item: TableRowData) => {
       return (
         fuzzyMatch(item.firstName, value) ||
@@ -44,7 +44,7 @@ export default function Landing({ data }: { data: any }) {
 
   return (
     <>
-      <SearchBar onClickSearch={onClickSearch} />
+      <SearchBar onQuerySearch={onQuerySearch} />
       <Table data={matchedData} />
     </>
   );
