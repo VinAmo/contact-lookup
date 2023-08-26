@@ -66,6 +66,12 @@ This project uses Cypress for end-to-end testing. There are two main tests:
 
    Select E2E Testing -> Chrome, and the test you want to run in the Cypress Test Runner.
 
+## ToDo
+
+- Store user search history to support restoring after user come back from contact detail page.
+- Manage state using redux or create more apis to support data passing/fetching after routing.
+- Support for dark mode theme to enhance user experience.
+
 ## Author
 
 Kion (Qingyang Zheng)
