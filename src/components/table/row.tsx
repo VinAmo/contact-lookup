@@ -1,7 +1,8 @@
 import Image from "next/image";
 import { TableRowData } from "@/types";
-import { useState, useEffect } from "react";
+import { MouseEvent, useState } from "react";
 import ArrowIcon from "../../../public/assets/arrow.svg";
+import { useRouter } from "next/navigation";
 
 const Row = ({
   index,
@@ -12,17 +13,23 @@ const Row = ({
   data: TableRowData;
   isMobile: boolean;
 }) => {
+  const router = useRouter();
   const [expandedRow, setExpandedRow] = useState<number | null>(null);
 
-  const onClick = (index: number) => {
+  const onClickRow = (index: number) => {
     setExpandedRow(expandedRow === index ? null : index);
+  };
+
+  const onClickButton = (event: MouseEvent<HTMLButtonElement>) => {
+    localStorage.setItem("contactData", JSON.stringify(data));
+    router.push(`/${data.id}`);
   };
 
   return (
     <>
       <tr
         className="border-b transition duration-300 ease-in-out hover:bg-gray-100"
-        onClick={() => onClick(index)}
+        onClick={() => onClickRow(index)}
       >
         <td className="px-6 py-4 font-medium">{index}</td>
         <td className="px-6 py-4">
@@ -63,6 +70,13 @@ const Row = ({
             <div className="flex flex-col text-right pr-6">
               <p className="block sm:hidden">Email {data.email}</p>
               <p>Phone number {data.phone}</p>
+              <button
+                className="text-right text-blue-600 hover:text-blue-700 focus:text-blue-700 focus:outline-none focus:ring-0"
+                type="button"
+                onClick={onClickButton}
+              >
+                Contact detail page
+              </button>
             </div>
           )}
         </td>
